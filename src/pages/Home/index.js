@@ -22,6 +22,7 @@ export default function Home() {
   const [ popularMovies, setPopularMovies ] = useState([]);
   const [ topMovies, setTopMovies ] = useState([]);
   const [ bannerMovie, setBannerMovie ] = useState({});
+  const [ input, setInput ] = useState('');
   const [ loading, setLoading ] = useState(true);
 
   const navigation = useNavigation();
@@ -79,6 +80,12 @@ export default function Home() {
     navigation.navigate('Detail', { id: item.id })
   }
 
+  function handleSearchMovie() {
+    if(input === '') return;
+    navigation.navigate('Search', { name: input })
+    setInput('');
+  }
+
   if(loading) {
     return (
       <Container>
@@ -91,9 +98,14 @@ export default function Home() {
     <Container>
       <Header title="React Prime" />
       <SearchContainer>
-        <Input placeholder="Procurar algo?" placeholderTextColor="#ddd" />
+        <Input 
+          placeholder="Procurar algo?" 
+          placeholderTextColor="#ddd" 
+          value={input}
+          onChangeText={(text) => setInput(text)}
+        />
 
-        <SearchButton>
+        <SearchButton onPress={handleSearchMovie}>
           <Feather name="search" size={30} color="#fff" />
         </SearchButton>
       </SearchContainer>
